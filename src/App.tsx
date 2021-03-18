@@ -34,7 +34,6 @@ const App = () => {
       Difficulty.EASY
     );
 
-    console.log(newQuestions);
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
@@ -42,7 +41,24 @@ const App = () => {
     setLoading(false);
   };
 
-  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {};
+  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!gameOver) {
+      // Users answer
+      const answer = e.currentTarget.value;
+      // Check answer against correct answer
+      const correct = questions[number].correct_answer === answer;
+      // Add Score if answer is correct
+      if (correct) setScore((prev) => prev + 1);
+      // Save answer in the array for user answers
+      const answerObject = {
+        question: questions[number].question,
+        answer,
+        correct,
+        correctAnswer: questions[number].correct_answer
+      };
+      setUserAnswers((prev) => [...prev, answerObject]);
+    }
+  };
 
   const nextQuestion = () => {};
 
@@ -66,9 +82,14 @@ const App = () => {
           callback={checkAnswer}
         />
       )}
-      <button className='next' onClick={nextQuestion}>
-        Next Question
-      </button>
+      {!gameOver &&
+        !loading &&
+        userAnswers.length === number + 1 &&
+        number !== TOTAL_QUESTIONS - 1 && (
+          <button className='next' onClick={nextQuestion}>
+            Next Question
+          </button>
+        )}
     </div>
   );
 };
