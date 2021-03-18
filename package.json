@@ -1,5 +1,6 @@
 {
-  "name": "react-quiz",
+  "name": "react-typescript-quiz",
+  "description": "react quiz application written with typescript using OPEN TRIVIA DATABASE for API call",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
